@@ -1,0 +1,17 @@
+[mysetup/inputdata]
+version = 6.2.3
+modtime = 1437744445.386979000
+
+[app/install/is_configured]
+version = 6.2.3
+modtime = 1437744445.410926000
+
+[indexes/splunkdim]
+owner = admin
+version = 6.2.3
+modtime = 1435935240.413920000
+
+[inputs/monitor%3A%2F%2F%2Fopt%2Fsplunk%2Fetc%2Fapps%2FSplunk_Dimensioning%2Flocal%2Fmysetup.conf]
+owner = admin
+version = 6.2.3
+modtime = 1435935251.194576000

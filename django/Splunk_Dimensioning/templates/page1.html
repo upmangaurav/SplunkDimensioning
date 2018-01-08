@@ -1,0 +1,132 @@
+{% extends "splunkdj:base_with_app_bar.html" %}
+
+{% load splunkmvc %}
+
+{% block title %}{{app_name}} Deployment Configuration{% endblock title %}
+
+{% block css %}
+    <!-- Style sheets are loaded here -->
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}{{app_name}}/application.css" />
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}splunkjs/css/dashboard.css" />
+    <style>
+        /* Define any page styles here*/
+    </style>
+{% endblock css %}
+
+{% block content %}
+<div class="dashboard-body container-fluid main-section-body" data-role="main">
+    <div class="dashboard-header clearfix">
+        <h2 style="font-family:verdana">Splunk Enterprise Sizing and Dimensioning</h2>
+    </div>
+  <!-- Row 1 -->
+    <!-- Row 2 with 2 cells -->
+    <div class="dashboard-row dashboard-row1">
+        <div class="dashboard-cell" style="width: 70%;">
+            <div class="dashboard-panel ">
+                <div class="dashboard-element">
+                    <div class="panel-head">
+                      <!--  <h3>Number of results</h3> -->
+                    </div>
+                    <div class="panel-body">
+                        {% chart  id="chart_sourcetype" managerid="search_chart" type="bar" drilldown="none" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-cell" style="width: 30%;">
+            <div class="dashboard-panel ">
+                <div class="dashboard-element">
+                    <div class="panel-head">
+                        <h3 style="color:BLUE"><b>Dimensioning output:</b></h3>
+                    </div>
+                    <div class="panel-footer">
+                        <h3> Amount of incoming data daily(GB):  <b>{{ daily_data }}</b> </h3>
+         				<h3> Scheduled Searches: <b>{{ sch_src }}</b> </h3>
+                        <h3> Recommended Number of Search Heads: <b>{{ search_heads }}</b> </h3>
+                        <h3> Recommended Number of Indexers:<b>{{ indexrs }}</b> </h3>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="dashboard-row dashboard-row1">
+        <div class="dashboard-cell" style="width: 50%;height:100px">
+            <div class="dashboard-panel ">
+                <div class="dashboard-element">
+                    <div class="panel-head">
+                      <!--  <h3>Number of results</h3> -->
+                    </div>
+                    <div class="panel-footer">
+<h3><b>Recommended Search Head Hardware Specifications:</b></h3>
+<ul type="square">
+<li>Intel 64-bit chip architecture
+<li>4 CPUs, 4 cores per CPU (16 CPU cores total), at least 2Ghz per core
+<li>12GB RAM
+<li>2 x 300GB, 10,000 RPM SAS hard disks, configured in RAID 1
+<li>Standard 1Gb Ethernet NIC, optional 2nd NIC for a management network
+<li>Standard 64-bit Linux or Windows distribution                  
+					</div>
+                </div>
+            </div>
+        </div>
+                <div class="dashboard-cell" style="width: 50%;height:100px">
+            <div class="dashboard-panel ">
+                <div class="dashboard-element">
+                    <div class="panel-head">
+                      <!--  <h3>Number of results</h3> -->
+                    </div>
+                    <div class="panel-footer">
+<h3><b>Recommended Indexer Hardware Specifications: </b></h3>
+<ul type="square">
+<li>Hardware - Intel 64-bit chip architecture
+<li>CPU - Dual quad-core/6-core at 2.5-3 GHz
+<li>Memory - 16 GB RAM
+<li>Disk - 4x10K local SAS drives in RAID 10 with 1200 IOPS
+<li>Network - standard 1 GB Ethernet NIC
+<li>optional 2nd NIC for a management network
+<li>OS - standard Linux or Windows 64-bit                   
+					</div>
+                </div>
+            </div>
+        </div>
+        
+      </div>
+
+</div>
+
+{% endblock content%}
+
+{% block managers %}
+    {% searchmanager
+        id="search_resulttable"
+        search="index=_internal sourcetype=$sourcetype$ | head $headcount$"|token_safe
+	cache=True
+    %}
+    {% searchmanager
+        id="search_chart"
+        search="index=* index=splunkdim |head 4 |eval var1=data*.15 | eval var2 = data*.25 |eval var3 = data*.4 | stats values(var1) as \"Raw Data\", values(var2) as \"Index Files\", values(var3) as \"Total space occupied by Splunk\"| transpose"
+        cache=False
+    %}
+    {% searchmanager
+        id="search_sourcetypes"
+        search="index=_internal | head 1000 | top sourcetype"
+        cache=True
+    %}
+{% endblock managers %}
+{% block js %}
+    <script>
+        var deps = [
+            "splunkjs/ready!"
+        ];
+        require(deps, function(mvc) {
+            var mychart = splunkjs.mvc.Components.getInstance("chart_sourcetype");
+            mychart.settings.set({
+                "charting.axisTitleX.visibility": "collapsed",
+                "charting.axisTitleY.text": "Space occupied(GB)",
+                "charting.legend.placement": "none",
+            });
+        });
+    </script>
+{% endblock js %}

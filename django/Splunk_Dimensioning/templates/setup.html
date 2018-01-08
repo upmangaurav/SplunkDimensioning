@@ -1,0 +1,38 @@
+{% extends "splunkdj:base_with_app_bar.html" %}
+
+{% load splunkmvc %}
+
+{% block title %}{{app_name}} Setup{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}{{app_name}}/application.css" />
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}splunkjs/css/dashboard.css" />
+    <style>       
+        .main-area {
+            margin: 0px auto;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 10px;
+            width: 400px;
+        }   
+    </style>
+{% endblock css %}
+
+f {% block content %}
+    <div>
+        <div class="main-area">
+            <form class="splunkdj-setup-form" method="post" action="">
+                {% csrf_token %}
+                <h2>Sizing calculation</h2>
+                <p>Enter your Splunk Enterprise parameters below, then 
+                <p>click <b>Submit</b> to view the HW recommendations.</p></br>
+               <p>
+                {{ form.as_p }}
+                <input class="btn btn-primary" type="submit" value="Submit" />
+                {% if configured %}
+                    <a class="btn" href="{% url 'Splunk_Dimensioning:home' %}">Cancel</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock content %}

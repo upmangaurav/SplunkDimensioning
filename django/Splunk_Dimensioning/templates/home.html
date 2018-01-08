@@ -1,0 +1,99 @@
+{% extends "splunkdj:base_with_app_bar.html" %}
+
+{% load splunkmvc %}
+
+{% block title %}{{app_name}} Home Page{% endblock title %}
+
+{% block css %}
+    <!-- Style sheets are loaded here -->
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}{{app_name}}/application.css" />
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}splunkjs/css/dashboard.css" />
+    <style>
+        /* Define any page styles here*/
+    </style>
+{% endblock css %}
+
+{% block content %}
+<div class="dashboard-body container-fluid main-section-body" data-role="main">
+    <div class="dashboard-header clearfix">
+        <h2 style="font-family:verdana">Splunk Enterprise Sizing and Dimensioning</h2>
+    </div>
+  <!-- Row 1 with 2 cells -->
+
+       	<div class="dashboard-row dashboard-row1">
+         <div class="dashboard-cell" >
+            <div class="dashboard-panel ">
+                <div class="dashboard-element">
+                    <div class="panel-head">
+                        <h3 style="color:BLUE"><b>Introduction</b></h3>
+                    </div>
+                    <div class="panel-body">
+                    <b><p>Splunk Enterprise</b> is a flexible product that
+                     meets almost any scale and redundancy requirement 
+                    in the course of its operation. Taking advantage of 
+                    that flexibility requires careful planning. This app 
+                    determines high level hardware specifications for 
+                    Splunk Enterprise deployments and describes how 
+                    Splunk Enterprise uses hardware resources under
+                    various situations. 
+                    </div>
+                    <div class="panel-footer">
+
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      <!-- Row 2 with 2 cells -->    
+  <div>
+	<div class="dashboard-row dashboard-row2">
+        <div class="dashboard-cell" style="width: 60%;">
+            <div class="dashboard-panel ">
+                <div class="dashboard-element">
+                    <div class="panel-head">
+                      <!--  <h3>Number of results</h3> -->
+                    </div>
+                    <div class="panel-body">
+                        <img src= "http://192.168.1.5:8000/en-US/static/app/Splunk_Dimensioning/searchhead.png"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+      
+        <div class="dashboard-cell" style="width: 40%;">
+            <div class="dashboard-panel ">
+                <div class="dashboard-element">
+                    <div class="panel-head">
+                      <h3><b>Dimensions of a Splunk Enterprise deployment</b></h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>In some cases, a single indexer can handle the load of both searching and indexing.
+</p>
+<p>There are scenarios where you must consider adding infrastructure to your Splunk Enterprise deployment for maximum efficiency and performance. Below is a list of things that significantly impact performance:
+</p>
+<p><b>1. <a href="http://docs.splunk.com/Documentation/Splunk/6.1.8/Installation/HowincomingdataaffectsSplunkperformance" class="external text">The amount of incoming data.</a></b> The more data you send to Splunk Enterprise, the more time Splunk needs to index it into results that you can search, report and generate alerts on. 
+</p>
+<p><b>2. <a href="http://docs.splunk.com/Documentation/Splunk/6.1.8/Installation/HowindexeddataaffectsSplunkperformance" class="external text">The amount of indexed data.</a></b> As the amount of data stored in an index goes up, the server that indexes that data requires additional bandwidth both to store the data and provide results for searches.
+</p>
+<p><b>3. <a href="http://docs.splunk.com/Documentation/Splunk/6.1.8/Installation/HowconcurrentusersaffectSplunkperformance" class="external text">The number of concurrent users.</a></b> If more than one person at a time uses an instance of Splunk Enterprise, that instance requires more resources for those users to do searches and create reports and dashboards.
+</p>
+<p><b>4. <a href="http://docs.splunk.com/Documentation/Splunk/6.1.8/Installation/HowsavedsearchesaffectSplunkperformance" class="external text">The number of saved searches.</a></b> If you plan on running a lot of saved searches, Splunk Enterprise needs capacity to perform those searches promptly and efficiently. The more saved searches you run in a given period of time, the more resources are required.
+</p>
+<p><b>5. <a href="http://docs.splunk.com/Documentation/Splunk/6.1.8/Installation/HowsearchtypesaffectSplunkperformance" class="external text">The types of search you employ.</a></b> Almost as important as the number of saved searches is the types of search that you run against a Splunk Enterprise system. There are several different types of search, each of which affects how the indexer responds to search requests.
+</p>
+<p><b>6. <a href="http://docs.splunk.com/Documentation/Splunk/6.1.8/Installation/HowSplunkappsaffectSplunkperformance" class="external text">Whether or not you run Splunk apps.</a></b> Splunk apps and solutions can have unique performance, deployment, and configuration considerations. If you plan on running apps, make sure you consider the resource requirements of the app(s) you are using. Refer to the installation and deployment section of your app or solution's documentation for additional information.
+</p>
+<center><p><p><a style="font-size:30" class="btn btn-primary" href="{% url 'Splunk_Dimensioning:setup' %}">Calculate now!</a></p></p></center>
+                    </div>
+                </div>
+            </div>
+	</div>
+</div>
+{% endblock content%}
+
+{% block js %}    
+    <script>
+        console.log("Custom JavaScript Goes Here (look in your template)!");
+    </script>
+{% endblock js %}

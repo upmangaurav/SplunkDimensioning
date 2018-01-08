@@ -1,0 +1,5 @@
+<nav color="610B5E">
+    <view name="default" default="true"/>
+    <a href="/dj/redirector/Splunk_Dimensioning/home">Home</a>
+    <a href="/dj/Splunk_Dimensioning/setup">Setup</a>
+</nav>
